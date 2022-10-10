@@ -9,7 +9,7 @@ package com.bjknrt.kotlin.data.vo
  * frequencyNum 一周三次 中的 三
  * frequencyNumUnit 一周三次 中的 次
  */
-class FrequencyParams(
+data class FrequencyParams(
     val id: java.math.BigInteger,
     val healthPlanId: java.math.BigInteger,
     val explainId: java.math.BigInteger?,

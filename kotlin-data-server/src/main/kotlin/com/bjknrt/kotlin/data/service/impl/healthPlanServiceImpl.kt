@@ -7,6 +7,7 @@ import com.bjknrt.kotlin.data.MrFrequencyTable
 import com.bjknrt.kotlin.data.MrHealthPlan
 import com.bjknrt.kotlin.data.MrHealthPlanTable
 import com.bjknrt.kotlin.data.service.HealthPlanService
+import com.bjknrt.kotlin.data.vo.CalculationCycleResult
 import com.bjknrt.kotlin.data.vo.FrequencyHealthParams
 import com.bjknrt.kotlin.data.vo.FrequencyParams
 import com.bjknrt.user.permission.centre.security.AppSecurityUtil
@@ -14,12 +15,40 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigInteger
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @Service
 class HealthPlanServiceImpl(
     val table: MrHealthPlanTable,
     val mrFrequencyTable: MrFrequencyTable
 ): HealthPlanService {
+
+    override fun calculationCycle(
+        chronoNum: Int,
+        chronoUnit: ChronoUnit,
+        startDateTime: LocalDateTime,
+        now: LocalDateTime
+    ): CalculationCycleResult {
+        val start: LocalDateTime
+        val end: LocalDateTime
+
+        val between: Long = chronoUnit.between(startDateTime, now) / chronoNum
+        val temp = chronoUnit.addTo(startDateTime, between * chronoNum)
+        if (temp.isAfter(now)) {
+            start = chronoUnit.addTo(startDateTime, between * chronoNum - chronoNum)
+            end = temp
+        } else {
+            start = temp
+            end = chronoUnit.addTo(startDateTime, between * chronoNum + chronoNum)
+        }
+
+        return CalculationCycleResult(
+            start = start,
+            end = end,
+            between = between
+        )
+    }
+
     override fun clockIn(id: BigInteger) {
         TODO("Not yet implemented")
     }
