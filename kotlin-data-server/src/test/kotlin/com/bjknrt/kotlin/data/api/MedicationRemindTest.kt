@@ -1,13 +1,11 @@
 package com.bjknrt.kotlin.data.api
 
 import com.bjknrt.kotlin.data.vo.BatchDelParam
-import com.bjknrt.framework.api.vo.Id
 import com.bjknrt.kotlin.data.vo.Inner
 import com.bjknrt.kotlin.data.vo.UpdBatchStatusParams
 import com.bjknrt.kotlin.data.vo.UpdStatusParams
 import com.bjknrt.kotlin.data.vo.UpsertParams
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
 import org.springframework.beans.factory.annotation.Autowired
 import com.bjknrt.kotlin.data.AbstractContainerBaseTest
 

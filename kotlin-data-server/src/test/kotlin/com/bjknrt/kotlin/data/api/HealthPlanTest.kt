@@ -1,9 +1,7 @@
 package com.bjknrt.kotlin.data.api
 
-import com.bjknrt.kotlin.data.vo.BatchTypeClockInParams
 import com.bjknrt.kotlin.data.vo.FrequencyGetClockInParam
 import com.bjknrt.kotlin.data.vo.FrequencyHealthAllParam
-import com.bjknrt.kotlin.data.vo.FrequencyHealthParams
 import com.bjknrt.kotlin.data.vo.HealthPlan
 import com.bjknrt.kotlin.data.vo.HealthPlanFrequencyGetClockInParam
 import com.bjknrt.kotlin.data.vo.HealthPlanMain
@@ -11,7 +9,6 @@ import com.bjknrt.framework.api.vo.Id
 import com.bjknrt.kotlin.data.vo.PatientIdGetListParam
 import com.bjknrt.kotlin.data.vo.UpsertHealthFrequencyResult
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
 import org.springframework.beans.factory.annotation.Autowired
 import com.bjknrt.kotlin.data.AbstractContainerBaseTest
 
@@ -19,28 +16,6 @@ class HealthPlanTest : AbstractContainerBaseTest() {
 
     @Autowired
     lateinit var api: HealthPlanApi
-
-    /**
-     * To test HealthPlanApi.batchIdClockIn
-     */
-    @Test
-    fun batchIdClockInTest() {
-        val id: kotlin.collections.List<Id> = TODO()
-        val response: List<HealthPlan> = api.batchIdClockIn(id)
-
-        // TODO: test validations
-    }
-
-    /**
-     * To test HealthPlanApi.batchIdTypeClockIn
-     */
-    @Test
-    fun batchIdTypeClockInTest() {
-        val batchTypeClockInParams: BatchTypeClockInParams = TODO()
-        val response: List<HealthPlan> = api.batchIdTypeClockIn(batchTypeClockInParams)
-
-        // TODO: test validations
-    }
 
     /**
      * To test HealthPlanApi.clockIn
@@ -103,17 +78,6 @@ class HealthPlanTest : AbstractContainerBaseTest() {
     fun patientIdGetListTest() {
         val patientIdGetListParam: PatientIdGetListParam = TODO()
         val response: List<HealthPlanMain> = api.patientIdGetList(patientIdGetListParam)
-
-        // TODO: test validations
-    }
-
-    /**
-     * To test HealthPlanApi.upsertFrequencyHealth
-     */
-    @Test
-    fun upsertFrequencyHealthTest() {
-        val frequencyHealthParams: FrequencyHealthParams = TODO()
-        val response: UpsertHealthFrequencyResult = api.upsertFrequencyHealth(frequencyHealthParams)
 
         // TODO: test validations
     }
