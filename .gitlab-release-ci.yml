@@ -1,0 +1,81 @@
+variables:
+  REGISTRY_IMAGE: 192.168.3.201:8082
+  RELEASE_IMAGE_NAME: $REGISTRY_IMAGE/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
+  RELEASE_CONTAINER_NAME: $CI_PROJECT_NAME
+  RELEASE_SSH_PORT: 22
+  RELEASE_SSH_USER: root
+  RELEASE_SSH_HOST: 192.168.3.161
+
+stages:
+  - publish
+  - docker
+  - deploy
+
+before_script:
+  - chmod +x gradlew
+
+release-publish:
+  stage: publish
+  tags:
+    - newbie
+    - pve-200
+  script:
+    - export MAVEN_RELEASE=true
+    - ./gradlew test
+    - ./gradlew -Pversion=$CI_COMMIT_REF_NAME publishAllPublicationsToBjknrtRepository
+  only:
+    - tags
+
+release-docker:
+  stage: docker
+  tags:
+    - newbie
+    - pve-200
+  script:
+    - ./gradlew kotlin-data-server:jib -Djib.to.image=$RELEASE_IMAGE_NAME -DsendCredentialsOverHttp=true
+  dependencies:
+    - release-publish
+  only:
+    - tags
+
+release-deploy:
+  image: docker:git
+  stage: deploy
+  variables:
+    SERVER_PROFILE: prod
+    SERVER_PORT: 8080
+    CONTAINER_EXPOSE_PORT: 8080 # TODO 修改访问端口
+    NACOS_ADDR: 192.168.3.151:8848,192.168.3.152:8848,192.168.3.153:8848
+  tags:
+    - newbie
+    - pve-200
+  script:
+    - mkdir -p ~/.ssh
+    - echo "$REVIEW_SSH_ID_RSA" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh -o StrictHostKeyChecking=no -p $RELEASE_SSH_PORT $RELEASE_SSH_USER@$RELEASE_SSH_HOST "docker stop $RELEASE_CONTAINER_NAME || true && docker rm $RELEASE_CONTAINER_NAME || true"
+    - ssh -o StrictHostKeyChecking=no -p $RELEASE_SSH_PORT $RELEASE_SSH_USER@$RELEASE_SSH_HOST "docker run -d --restart=always --name $RELEASE_CONTAINER_NAME -v /data/$RELEASE_CONTAINER_NAME/logs:/bjknrt/logs -v /etc/localtime:/etc/localtime -e TZ='Asia/Shanghai' -p $CONTAINER_EXPOSE_PORT:$SERVER_PORT $RELEASE_IMAGE_NAME --spring.profiles.active=$SERVER_PROFILE --server.port=$SERVER_PORT --spring.cloud.nacos.discovery.port=$CONTAINER_EXPOSE_PORT --spring.cloud.nacos.discovery.ip=$RELEASE_SSH_HOST --spring.cloud.nacos.server-addr=$NACOS_ADDR"
+  dependencies:
+    - release-docker
+  when: manual
+  environment:
+    name: release/$CI_PROJECT_NAME
+    url: http://$RELEASE_SSH_HOST:$CONTAINER_EXPOSE_PORT/
+    on_stop: stop-release-deploy
+  only:
+    - tags
+
+stop-release-deploy:
+  stage: deploy
+  tags:
+    - newbie
+    - pve-200
+  dependencies: [ ]
+  when: manual
+  script:
+    - ssh -o StrictHostKeyChecking=no -p $RELEASE_SSH_PORT $RELEASE_SSH_USER@$RELEASE_SSH_HOST "docker stop $RELEASE_CONTAINER_NAME || true && docker rm $RELEASE_CONTAINER_NAME || true"
+  environment:
+    name: release/$CI_PROJECT_NAME
+    action: stop
+  only:
+    - tags
