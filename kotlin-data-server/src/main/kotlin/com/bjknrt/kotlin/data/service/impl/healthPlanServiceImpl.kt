@@ -2,10 +2,13 @@ package com.bjknrt.kotlin.data.service.impl
 
 import com.bjknrt.framework.api.vo.Id
 import com.bjknrt.framework.util.AppIdUtil
+import com.bjknrt.kotlin.data.MrFrequency
+import com.bjknrt.kotlin.data.MrFrequencyTable
 import com.bjknrt.kotlin.data.MrHealthPlan
 import com.bjknrt.kotlin.data.MrHealthPlanTable
 import com.bjknrt.kotlin.data.service.HealthPlanService
 import com.bjknrt.kotlin.data.vo.FrequencyHealthParams
+import com.bjknrt.kotlin.data.vo.FrequencyParams
 import com.bjknrt.user.permission.centre.security.AppSecurityUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,7 +17,8 @@ import java.time.LocalDateTime
 
 @Service
 class HealthPlanServiceImpl(
-    val table: MrHealthPlanTable
+    val table: MrHealthPlanTable,
+    val mrFrequencyTable: MrFrequencyTable
 ): HealthPlanService {
     override fun clockIn(id: BigInteger) {
         TODO("Not yet implemented")
@@ -80,5 +84,29 @@ class HealthPlanServiceImpl(
             this.externalKey = externalKey
         })
         return id
+    }
+
+    override fun upsertFrequency(frequency: List<FrequencyParams>) {
+        // 登录人id
+        val patientId = AppSecurityUtil.currentUserIdWithDefault();
+        // 当前日期时间
+        val current = LocalDateTime.now()
+
+        for (it in frequency) {
+            mrFrequencyTable.saveOrUpdate(
+                MrFrequency.forInsert(
+                    it.id,
+                    it.healthPlanId
+                ).apply {
+                    this.knExplainId = it.explainId
+                    this.knFrequencyTime = it.frequencyTime
+                    this.knFrequencyTimeUnit = it.frequencyTimeUnit.value
+                    this.knFrequencyNum = it.frequencyNum
+                    this.knFrequencyNumUnit = it.frequencyNumUnit.value
+                    this.knCreatedAt = current
+                    this.knCreatedBy = patientId
+                }
+            )
+        }
     }
 }
