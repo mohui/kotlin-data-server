@@ -170,7 +170,7 @@ interface HealthPlanApi {
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun upsertFrequencyHealth(@Valid frequencyHealthParams: FrequencyHealthParams): UpsertHealthFrequencyResult
+    fun upsertFrequencyHealth(@Valid frequencyHealthParams: FrequencyHealthParams)
 
 
     /**

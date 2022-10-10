@@ -10,7 +10,7 @@ import java.math.BigInteger
 @RestController("com.bjknrt.kotlin.data.api.HealthPlanController")
 class HealthPlanController() : AppBaseController(), HealthPlanApi {
     override fun batchIdClockIn(id: List<Id>): List<HealthPlan> {
-        val list = 1;
+
         TODO("Not yet implemented")
     }
 
@@ -23,7 +23,7 @@ class HealthPlanController() : AppBaseController(), HealthPlanApi {
     }
 
     override fun frequencyGetClockIn(frequencyGetClockInParam: FrequencyGetClockInParam): Int {
-        TODO("Not yet implemented")
+        return 1;
     }
 
     override fun healthPlanFrequencyGetClockIn(healthPlanFrequencyGetClockInParam: HealthPlanFrequencyGetClockInParam): Int {
@@ -42,8 +42,8 @@ class HealthPlanController() : AppBaseController(), HealthPlanApi {
         TODO("Not yet implemented")
     }
 
-    override fun upsertFrequencyHealth(frequencyHealthParams: FrequencyHealthParams): UpsertHealthFrequencyResult {
-        TODO("Not yet implemented")
+    override fun upsertFrequencyHealth(frequencyHealthParams: FrequencyHealthParams) {
+
     }
 
     override fun upsertTypeFrequencyHealth(frequencyHealthAllParam: FrequencyHealthAllParam): List<UpsertHealthFrequencyResult> {
