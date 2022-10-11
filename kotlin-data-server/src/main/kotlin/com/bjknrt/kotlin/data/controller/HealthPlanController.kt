@@ -13,17 +13,35 @@ import org.springframework.web.bind.annotation.RestController
 import java.math.BigInteger
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
+import java.util.*
 
 @RestController("com.bjknrt.kotlin.data.api.HealthPlanController")
 class HealthPlanController(
     val healthPlanService: HealthPlanService
 ) : AppBaseController(), HealthPlanApi {
     override fun batchIdClockIn(id: List<Id>) {
+        val dayOfMonth = LocalDate.now().dayOfMonth
+        println("这个是dayOfMonth${dayOfMonth}")
 
-        val time = LocalDateTimeUtil.now()
 
-        TODO("Not yet implemented")
+        val dayOfYear = LocalDateTime.now().dayOfYear
+        println("这个是 dayOfYear${dayOfYear}")
+
+
+        val weekOfYear = LocalDateTime.now().with(ChronoField.ALIGNED_WEEK_OF_YEAR, 2)
+        println("这个是 weekOfYear${weekOfYear}")
+
+        // 获取当前周
+        val week = LocalDateTime.now().get(ChronoField.ALIGNED_WEEK_OF_YEAR)
+        println("这个是 get方法${week}")
+
+        // 调用方法
+//        healthPlanService.getListTest()
+//        val time = LocalDateTimeUtil.now()
     }
 
     override fun batchIdTypeClockIn() {
@@ -35,13 +53,11 @@ class HealthPlanController(
             startDateTime = startTime1,
             now = LocalDateTime.now()
         )
-
-
         println(time)
     }
 
-    override fun clockIn(body: BigInteger): List<HealthPlan> {
-        TODO("Not yet implemented")
+    override fun clockIn(body: BigInteger) {
+        healthPlanService.getListTest()
     }
 
     override fun frequencyGetClockIn(frequencyGetClockInParam: FrequencyGetClockInParam): Int {
@@ -110,8 +126,8 @@ class HealthPlanController(
         }
     }
 
-    override fun upsertTypeFrequencyHealth(frequencyHealthAllParam: FrequencyHealthAllParam): List<UpsertHealthFrequencyResult> {
-        TODO("Not yet implemented")
+    override fun upsertTypeFrequencyHealth(frequencyHealthAllParam: FrequencyHealthAllParam) {
+
     }
 
 }

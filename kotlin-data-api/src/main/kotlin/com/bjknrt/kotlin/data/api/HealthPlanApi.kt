@@ -72,7 +72,7 @@ interface HealthPlanApi {
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun clockIn(@Valid body: java.math.BigInteger): List<HealthPlan>
+    fun clockIn(@Valid body: java.math.BigInteger)
 
 
     /**
@@ -182,5 +182,5 @@ interface HealthPlanApi {
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun upsertTypeFrequencyHealth(@Valid frequencyHealthAllParam: FrequencyHealthAllParam): List<UpsertHealthFrequencyResult>
+    fun upsertTypeFrequencyHealth(@Valid frequencyHealthAllParam: FrequencyHealthAllParam)
 }
