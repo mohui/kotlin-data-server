@@ -44,15 +44,11 @@ interface HealthPlanApi {
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun batchIdClockIn(@Valid id: kotlin.collections.List<Id>): List<HealthPlan>
+    fun batchIdClockIn(@Valid id: kotlin.collections.List<Id>)
 
 
     /**
      * 根据type批量打卡接口
-     * 
-     *
-     * @param batchTypeClockInParams
-     * @return List<HealthPlan>
      */
     @RequestMapping(
         method = [RequestMethod.POST],
@@ -60,7 +56,7 @@ interface HealthPlanApi {
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun batchIdTypeClockIn(@Valid batchTypeClockInParams: BatchTypeClockInParams): List<HealthPlan>
+    fun batchIdTypeClockIn()
 
 
     /**

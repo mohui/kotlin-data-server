@@ -7,10 +7,11 @@ import com.bjknrt.kotlin.data.MrFrequencyTable
 import com.bjknrt.kotlin.data.MrHealthPlan
 import com.bjknrt.kotlin.data.MrHealthPlanTable
 import com.bjknrt.kotlin.data.service.HealthPlanService
-import com.bjknrt.kotlin.data.vo.CalculationCycleResult
-import com.bjknrt.kotlin.data.vo.FrequencyHealthParams
-import com.bjknrt.kotlin.data.vo.FrequencyParams
+import com.bjknrt.kotlin.data.vo.*
 import com.bjknrt.user.permission.centre.security.AppSecurityUtil
+import me.danwi.sqlex.core.query.Order
+import me.danwi.sqlex.core.query.arg
+import me.danwi.sqlex.core.query.`in`
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigInteger
@@ -137,5 +138,47 @@ class HealthPlanServiceImpl(
                 }
             )
         }
+    }
+
+    override fun getHealthPlanFrequency(ids: List<Id>): Map<Id, List<HealthPlanRule>> {
+
+        // 转map
+        val frequencies = mrFrequencyTable.select()
+            .where(MrFrequencyTable.KnHealthPlanId `in` ids.map { it.arg })
+            .order(MrFrequencyTable.KnId, Order.Asc)
+            .find()
+
+        return frequencies.takeIf { it.isNotEmpty() }
+            ?.let { list ->
+                // 转map
+                val frequencieMap = list.mapNotNull { freq ->
+                    freq.knFrequencyTime?.let { ft ->
+                        freq.knFrequencyTimeUnit?.let { ftu ->
+                            freq.knFrequencyNum?.let { fn ->
+                                freq.knFrequencyNumUnit?.let { fnu ->
+                                    HealthPlanRule(
+                                        freq.knId,
+                                        ft,
+                                        TimeServiceUnit.valueOf(ftu),
+                                        fn,
+                                        TimeServiceUnit.valueOf(fnu)
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                }.associateBy { it.id }
+                // 拼关系
+                // - 关联下级
+                list.forEach { freq ->
+                    if (freq.knExplainId != null) {
+                        frequencieMap[freq.knExplainId]?.children = frequencieMap[freq.knId]
+                    }
+                }
+                // - 找出顶层对象
+                list.filter { it.knExplainId == null && frequencieMap.contains(it.knId) }
+                    .groupBy({ it.knHealthPlanId }, { frequencieMap[it.knId] ?: HealthPlanRule.EMPTY })
+            } ?: mapOf()
     }
 }

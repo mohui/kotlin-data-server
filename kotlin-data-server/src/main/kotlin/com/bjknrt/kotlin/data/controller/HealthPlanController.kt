@@ -1,5 +1,6 @@
 package com.bjknrt.kotlin.data.controller
 
+import cn.hutool.core.date.LocalDateTimeUtil
 import com.bjknrt.kotlin.data.api.HealthPlanApi
 import com.bjknrt.framework.api.AppBaseController
 import com.bjknrt.framework.api.exception.MsgException
@@ -10,18 +11,33 @@ import com.bjknrt.kotlin.data.service.HealthPlanService
 import com.bjknrt.kotlin.data.vo.*
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigInteger
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @RestController("com.bjknrt.kotlin.data.api.HealthPlanController")
 class HealthPlanController(
     val healthPlanService: HealthPlanService
 ) : AppBaseController(), HealthPlanApi {
-    override fun batchIdClockIn(id: List<Id>): List<HealthPlan> {
+    override fun batchIdClockIn(id: List<Id>) {
+
+        val time = LocalDateTimeUtil.now()
 
         TODO("Not yet implemented")
     }
 
-    override fun batchIdTypeClockIn(batchTypeClockInParams: BatchTypeClockInParams): List<HealthPlan> {
-        TODO("Not yet implemented")
+    override fun batchIdTypeClockIn() {
+        val startTime = LocalDateTime.now().toLocalDate().atStartOfDay().plusDays(-10)
+        val startTime1 = LocalDate.of(LocalDate.now().year, 1, 1).atStartOfDay()
+        val time = healthPlanService.calculationCycle(
+            chronoNum = 3,
+            chronoUnit = ChronoUnit.MONTHS,
+            startDateTime = startTime1,
+            now = LocalDateTime.now()
+        )
+
+
+        println(time)
     }
 
     override fun clockIn(body: BigInteger): List<HealthPlan> {
