@@ -4,7 +4,7 @@ import com.bjknrt.framework.api.vo.Id
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigInteger
 
-class HealthPlanRule (
+data class HealthPlanRule (
 
     val id: Id,
 

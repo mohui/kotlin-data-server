@@ -28,4 +28,6 @@ interface HealthPlanService  {
     ): CalculationCycleResult
 
     fun getHealthPlanFrequency(ids: List<Id>): Map<Id, List<HealthPlanRule>>
+
+    fun getListTest(): Map<Id, List<HealthPlanRule>>
 }
