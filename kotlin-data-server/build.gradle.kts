@@ -27,6 +27,9 @@ dependencies {
     implementation("me.danwi.sqlex:core")
     implementation("me.danwi.sqlex:core-kotlin")
 
+    // 转json
+    implementation("com.google.code.gson:gson:2.8.5")
+
     // hutool 工具 自己需要什么加什么 参考 https://www.hutool.cn/docs/#/
 
     // 开发工具
