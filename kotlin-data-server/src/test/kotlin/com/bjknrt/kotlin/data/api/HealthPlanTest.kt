@@ -11,6 +11,7 @@ import com.bjknrt.kotlin.data.vo.UpsertHealthFrequencyResult
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import com.bjknrt.kotlin.data.AbstractContainerBaseTest
+import java.math.BigInteger
 
 class HealthPlanTest : AbstractContainerBaseTest() {
 
@@ -22,9 +23,7 @@ class HealthPlanTest : AbstractContainerBaseTest() {
      */
     @Test
     fun clockInTest() {
-        val body: java.math.BigInteger = TODO()
+        val body: java.math.BigInteger = BigInteger.ZERO
         val response = api.clockIn(body)
-
-        // TODO: test validations
     }
 }

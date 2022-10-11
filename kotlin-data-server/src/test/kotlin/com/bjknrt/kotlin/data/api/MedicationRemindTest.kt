@@ -8,6 +8,7 @@ import com.bjknrt.kotlin.data.vo.UpsertParams
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import com.bjknrt.kotlin.data.AbstractContainerBaseTest
+import java.math.BigInteger
 
 class MedicationRemindTest : AbstractContainerBaseTest() {
 
@@ -30,7 +31,7 @@ class MedicationRemindTest : AbstractContainerBaseTest() {
      */
     @Test
     fun delTest() {
-        val body: java.math.BigInteger = TODO()
+        val body: java.math.BigInteger = BigInteger.TEN
         val response: kotlin.Boolean = api.del(body)
 
         // TODO: test validations
