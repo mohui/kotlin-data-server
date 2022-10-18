@@ -1,5 +1,8 @@
 package com.bjknrt.kotlin.data.controller
 
+import cn.hutool.core.date.DateField
+import cn.hutool.core.date.DateTime
+import cn.hutool.core.date.DateUtil
 import cn.hutool.core.date.LocalDateTimeUtil
 import com.bjknrt.kotlin.data.api.HealthPlanApi
 import com.bjknrt.framework.api.AppBaseController
@@ -9,12 +12,10 @@ import com.bjknrt.framework.util.AppIdUtil
 import com.bjknrt.framework.util.AppSpringUtil
 import com.bjknrt.kotlin.data.service.HealthPlanService
 import com.bjknrt.kotlin.data.vo.*
+import me.danwi.sqlex.core.query.now
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigInteger
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneId
+import java.time.*
 import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
 import java.util.*
@@ -68,16 +69,33 @@ class HealthPlanController(
         TODO("Not yet implemented")
     }
 
-    override fun idGetList(id: List<Id>): List<HealthPlanMain> {
-        TODO("Not yet implemented")
+    override fun idGetList(id: List<Id>) {
+
+        val now = DateTime.now()
+
+        //将时间设置为今年的第二周的当前时间
+        now.setField(DateField.WEEK_OF_YEAR, 3)
+
+        //获取第二周的开始时间
+        val beginOfWeek = DateUtil.beginOfWeek(now)
+        println(beginOfWeek)
+
+        //获取第二周的结束时间
+        val endOfWeek = DateUtil.endOfWeek(now)
+        println(endOfWeek)
     }
 
     override fun list(): List<HealthPlan> {
         TODO("Not yet implemented")
     }
 
-    override fun patientIdGetList(patientIdGetListParam: PatientIdGetListParam): List<HealthPlanMain> {
-        TODO("Not yet implemented")
+    override fun patientIdGetList(patientIdGetListParam: PatientIdGetListParam) {
+        val now1= org.joda.time.DateTime.now()
+        println(now1)
+        val time1 = now1.withYear(2022).withWeekOfWeekyear(1).dayOfWeek().withMinimumValue()
+        println(time1)
+        val weekOfWeekyear = now1.weekOfWeekyear()
+        println(weekOfWeekyear.get())
     }
 
     override fun upsertFrequencyHealth(frequencyHealthParams: FrequencyHealthParams) {

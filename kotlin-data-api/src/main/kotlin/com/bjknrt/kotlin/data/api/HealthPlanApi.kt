@@ -120,7 +120,7 @@ interface HealthPlanApi {
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun idGetList(@Valid id: kotlin.collections.List<Id>): List<HealthPlanMain>
+    fun idGetList(@Valid id: kotlin.collections.List<Id>)
 
 
     /**
@@ -150,7 +150,7 @@ interface HealthPlanApi {
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun patientIdGetList(@Valid patientIdGetListParam: PatientIdGetListParam): List<HealthPlanMain>
+    fun patientIdGetList(@Valid patientIdGetListParam: PatientIdGetListParam)
 
 
     /**
