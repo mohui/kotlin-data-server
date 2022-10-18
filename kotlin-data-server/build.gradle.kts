@@ -32,6 +32,9 @@ dependencies {
 
     // hutool 工具 自己需要什么加什么 参考 https://www.hutool.cn/docs/#/
 
+    // 时间包-主要是为了处理周
+    implementation("joda-time:joda-time:2.10.13")
+
     // 开发工具
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
