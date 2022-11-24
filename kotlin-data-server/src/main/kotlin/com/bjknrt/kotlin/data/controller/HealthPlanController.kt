@@ -33,16 +33,15 @@ class HealthPlanController(
         println("这个是 dayOfYear${dayOfYear}")
 
 
-        val weekOfYear = LocalDateTime.now().with(ChronoField.ALIGNED_WEEK_OF_YEAR, 2)
-        println("这个是 weekOfYear${weekOfYear}")
+        val weekOfYear = LocalDate.now().with(ChronoField.ALIGNED_WEEK_OF_YEAR, 2)
+        println("这个是 weekOfYear2 $weekOfYear")
+
+        // 获取当天是周几
+        val weekNum = LocalDateTime.now().dayOfWeek.value
 
         // 获取当前周
         val week = LocalDateTime.now().get(ChronoField.ALIGNED_WEEK_OF_YEAR)
         println("这个是 get方法${week}")
-
-        // 调用方法
-//        healthPlanService.getListTest()
-//        val time = LocalDateTimeUtil.now()
     }
 
     override fun batchIdTypeClockIn() {
@@ -62,6 +61,65 @@ class HealthPlanController(
     }
 
     override fun frequencyGetClockIn(frequencyGetClockInParam: FrequencyGetClockInParam): Int {
+
+
+
+
+        val current = LocalDate.now().atStartOfDay()
+
+        val from = Date.from(current.toInstant(ZoneOffset.MIN))
+        val time01 = Date(2022, 1, 1)
+        println(time01)
+
+        val ca = Calendar.getInstance()
+        ca.set(2022, 1, 1)
+        println(ca.time)
+
+        println("------------------------------------------------------------------------------------------------------------------------")
+
+
+        val time = LocalDate.of(2021, 12, 26).atTime(OffsetTime.MAX)
+        println(time)
+        val a1 = time.toInstant()
+        println(a1)
+
+        val date20211224: Date = Date.from(LocalDate.of(2021, 12, 24).atStartOfDay().toInstant(ZoneOffset.MIN))
+        val week20211224 = DateUtil.weekOfYear(date20211224)
+        println("2021年12月24日: $date20211224")
+        println("2021年12月24日: $week20211224")
+
+
+        val date20211227 = Date.from(LocalDate.of(2021, 12, 27).atStartOfDay().toInstant(ZoneOffset.MIN))
+        val week20211227 = DateUtil.weekOfYear(date20211227)
+        println("2021年12月27日: $date20211227")
+        println("2021年12月27日: $week20211227")
+
+        val date0 = Date.from(LocalDate.of(2021, 12, 31).atStartOfDay().toInstant(ZoneOffset.MIN))
+        val week20211231 = DateUtil.weekOfYear(date0)
+        println("2021年12月31日: $date0")
+        println("2021年12月31日: $week20211231")
+
+
+        val date = Date.from(LocalDate.of(LocalDate.now().year, 1, 1).atStartOfDay().toInstant(ZoneOffset.MIN))
+        val week2022 = DateUtil.weekOfYear(date)
+        println("2022年1月1日: $date")
+        println("2022年1月1日: $week2022")
+
+        val date2 = Date.from(LocalDate.of(LocalDate.now().year, 1, 2).atStartOfDay().toInstant(ZoneOffset.MIN))
+        val week20222 = DateUtil.weekOfYear(date2)
+        println("2022年1月2日: $date2")
+        println("2022年1月2日: $week20222")
+
+        val date3 = Date.from(LocalDate.of(LocalDate.now().year, 1, 3).atStartOfDay().toInstant(ZoneOffset.MIN))
+        val week20223 = DateUtil.weekOfYear(date3)
+        println("2022年1月3日: $date3")
+        println("2022年1月3日: $week20223")
+
+
+
+        val a = Date()
+        val b = DateUtil.offsetWeek(a, 1)
+        println(b)
         return 1;
     }
 
@@ -90,12 +148,12 @@ class HealthPlanController(
     }
 
     override fun patientIdGetList(patientIdGetListParam: PatientIdGetListParam) {
-        val now1= org.joda.time.DateTime.now()
-        println(now1)
-        val time1 = now1.withYear(2022).withWeekOfWeekyear(1).dayOfWeek().withMinimumValue()
-        println(time1)
-        val weekOfWeekyear = now1.weekOfWeekyear()
-        println(weekOfWeekyear.get())
+//        val now1= org.joda.time.DateTime.now()
+//        println(now1)
+//        val time1 = now1.withYear(2022).withWeekOfWeekyear(1).dayOfWeek().withMinimumValue()
+//        println(time1)
+//        val weekOfWeekyear = now1.weekOfWeekyear()
+//        println(weekOfWeekyear.get())
     }
 
     override fun upsertFrequencyHealth(frequencyHealthParams: FrequencyHealthParams) {
