@@ -126,13 +126,14 @@ class HealthPlanServiceImpl(
             mrFrequencyTable.saveOrUpdate(
                 MrFrequency.forInsert(
                     it.id,
-                    it.healthPlanId
+                    it.healthPlanId,
+                    it.frequencyTime,
+                    it.frequencyTimeUnit.name,
+                    it.frequencyNum,
+                    it.frequencyNum,
+                    it.frequencyNumUnit.name
                 ).apply {
                     this.knExplainId = it.explainId
-                    this.knFrequencyTime = it.frequencyTime
-                    this.knFrequencyTimeUnit = it.frequencyTimeUnit.value
-                    this.knFrequencyNum = it.frequencyNum
-                    this.knFrequencyNumUnit = it.frequencyNumUnit.value
                     this.knCreatedAt = current
                     this.knCreatedBy = patientId
                 }
