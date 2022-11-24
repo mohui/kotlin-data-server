@@ -19,6 +19,8 @@ CREATE TABLE mr_health_plan
     kn_cycle_start_time datetime(3)     NULL     DEFAULT NULL COMMENT '周期开始时间',
     kn_cycle_end_time   datetime(3)     NULL     DEFAULT NULL COMMENT '周期结束时间',
     external_key        varchar(128)    NULL     DEFAULT NULL COMMENT '扩展字段',
+    kn_group            varchar(64)     NULL     DEFAULT NULL COMMENT '分组字段',
+    kn_display_time     datetime(3)     NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '显示时间',
 
     is_used             boolean         NOT NULL DEFAULT true COMMENT '状态, true:可用,false: 不可用',
     is_del              boolean         NOT NULL DEFAULT false COMMENT '是否删除: true: 删除, false: 未删除',
@@ -38,10 +40,11 @@ CREATE TABLE mr_frequency
     kn_id                  bigint unsigned NOT NULL primary key COMMENT '唯一主键',
     kn_health_plan_id      bigint unsigned NOT NULL COMMENT '主表',
     kn_explain_id          bigint unsigned NULL     DEFAULT NULL COMMENT '上级',
-    kn_frequency_time      int             NULL     DEFAULT NULL COMMENT '频次时间',
-    kn_frequency_time_unit varchar(30)     NULL     DEFAULT NULL COMMENT '频次时间单位',
-    kn_frequency_num       int             NULL     DEFAULT NULL COMMENT '频次的数量',
-    kn_frequency_num_unit  varchar(30)     NULL     DEFAULT NULL COMMENT '频次数量单位',
+    kn_frequency_time      int             NOT NULL COMMENT '频次时间',
+    kn_frequency_time_unit varchar(30)     NOT NULL COMMENT '频次时间单位',
+    kn_frequency_num       int             NOT NULL COMMENT '频次的数量',
+    kn_frequency_max_num   int             NOT NULL COMMENT '最大频次的数量',
+    kn_frequency_num_unit  varchar(30)     NOT NULL COMMENT '频次数量单位',
     kn_created_by          bigint unsigned          DEFAULT NULL COMMENT '创建人id',
     kn_created_at          datetime(3)     NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间'
 ) ENGINE = InnoDB
@@ -55,6 +58,7 @@ CREATE TABLE mr_clock_in
     kn_id             bigint unsigned NOT NULL primary key COMMENT '唯一主键',
     kn_health_plan_id bigint unsigned NOT NULL COMMENT '主表',
     kn_time           time            NULL     DEFAULT NULL COMMENT '时间',
+    kn_clock_at       datetime(3)     NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '打卡时间',
     kn_created_by     bigint unsigned          DEFAULT NULL COMMENT '创建人id',
     kn_created_at     datetime(3)     NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间'
 ) ENGINE = InnoDB
