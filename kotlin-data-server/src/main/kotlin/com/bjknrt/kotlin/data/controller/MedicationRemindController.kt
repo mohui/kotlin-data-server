@@ -6,17 +6,13 @@ import com.bjknrt.kotlin.data.vo.*
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigInteger
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.*
 
 @RestController("com.bjknrt.kotlin.data.api.MedicationRemindController")
 class MedicationRemindController() : AppBaseController(), MedicationRemindApi {
     override fun batchDel(batchDelParam: BatchDelParam) {
-        TODO("Not yet implemented")
-
-
-
-
-
+        println("hello word")
     }
 
     override fun del(body: BigInteger): Boolean {
@@ -27,15 +23,22 @@ class MedicationRemindController() : AppBaseController(), MedicationRemindApi {
     }
 
     override fun list(): List<Inner> {
-        TODO("Not yet implemented")
+        return listOf(
+            Inner(
+                id = BigInteger.valueOf(10000000),
+                drugName = "阿莫西林",
+                time = LocalTime.now(),
+                status = true,
+                weeks = listOf(Week.MONDAY)
+            )
+        )
     }
 
     override fun updBatchStatus(updBatchStatusParams: UpdBatchStatusParams) {
-        TODO("Not yet implemented")
     }
 
     override fun updStatus(updStatusParams: UpdStatusParams): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 
     override fun upsert(upsertParams: UpsertParams): Boolean {

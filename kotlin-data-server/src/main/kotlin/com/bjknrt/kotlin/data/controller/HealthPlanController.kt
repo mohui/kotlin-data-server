@@ -148,12 +148,12 @@ class HealthPlanController(
     }
 
     override fun patientIdGetList(patientIdGetListParam: PatientIdGetListParam) {
-//        val now1= org.joda.time.DateTime.now()
-//        println(now1)
-//        val time1 = now1.withYear(2022).withWeekOfWeekyear(1).dayOfWeek().withMinimumValue()
-//        println(time1)
-//        val weekOfWeekyear = now1.weekOfWeekyear()
-//        println(weekOfWeekyear.get())
+        val now1= org.joda.time.DateTime.now()
+        println(now1)
+        val time1 = now1.withYear(2022).withWeekOfWeekyear(1).dayOfWeek().withMinimumValue()
+        println(time1)
+        val weekOfWeekyear = now1.weekOfWeekyear()
+        println(weekOfWeekyear.get())
     }
 
     override fun upsertFrequencyHealth(frequencyHealthParams: FrequencyHealthParams) {
