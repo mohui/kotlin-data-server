@@ -2,6 +2,7 @@ package com.bjknrt.kotlin.data.controller
 
 import com.bjknrt.kotlin.data.api.MedicationRemindApi
 import com.bjknrt.framework.api.AppBaseController
+import com.bjknrt.kotlin.data.factory.StudyFactory
 import com.bjknrt.kotlin.data.vo.*
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigInteger
@@ -10,13 +11,18 @@ import java.time.LocalTime
 import java.util.*
 
 @RestController("com.bjknrt.kotlin.data.api.MedicationRemindController")
-class MedicationRemindController() : AppBaseController(), MedicationRemindApi {
+class MedicationRemindController(
+    val studyFactory: StudyFactory
+) : AppBaseController(), MedicationRemindApi {
     override fun batchDel(batchDelParam: BatchDelParam) {
+        println(Calendar.WEEK_OF_YEAR)
         println("hello word")
     }
 
     override fun del(body: BigInteger): Boolean {
-        println(Calendar.WEEK_OF_YEAR)
+        var subject: String = "CHINESE"
+        if (body == BigInteger.valueOf(2)) subject = "MATHEMATICS"
+        studyFactory.getSubject(subject)
 
 
         return false
